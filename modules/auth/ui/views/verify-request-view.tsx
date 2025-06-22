@@ -44,6 +44,15 @@ export const VerifyRequestView = () => {
 
 	const router = useRouter();
 
+	if (!email) {
+		toast.error("Email address is missing", {
+			id: "email-not-found",
+			description: "Please go back to the sign in page, and try again.",
+		});
+
+		router.push("/sign-in");
+	}
+
 	const form = useForm<InputOtpSchemaType>({
 		resolver: zodResolver(inputOtpSchema),
 		defaultValues: {

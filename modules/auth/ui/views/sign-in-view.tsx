@@ -56,7 +56,9 @@ export const SignInView = () => {
 							description: "You will be redirected to the verification page",
 						});
 
-						router.push(`/verify-request?email=${data.email}`);
+						router.push(
+							`/verify-request?email=${encodeURIComponent(data.email)}`
+						);
 					},
 					onError: (ctx) => {
 						toast.error("Error sending verification email", {
