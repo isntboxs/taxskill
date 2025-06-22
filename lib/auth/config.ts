@@ -1,5 +1,6 @@
 import type { BetterAuthOptions } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
+import { nextCookies } from "better-auth/next-js";
 
 import { env } from "@/env";
 import { db } from "@/server/db";
@@ -27,5 +28,6 @@ export const authConfig = {
 			clientSecret: env.GITHUB_CLIENT_SECRET,
 		},
 	},
+	plugins: [nextCookies()],
 	secret: env.BETTER_AUTH_SECRET,
 } satisfies BetterAuthOptions;

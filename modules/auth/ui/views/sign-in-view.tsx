@@ -1,8 +1,11 @@
 "use client";
 
 import { useTransition } from "react";
+import { useRouter } from "next/navigation";
 
-import { Loader2Icon } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2Icon, SendIcon } from "lucide-react";
+import { useForm } from "react-hook-form";
 import { FaGithub } from "react-icons/fa";
 import { toast } from "sonner";
 
@@ -14,13 +17,57 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { signIn } from "@/lib/auth/client";
+import { emailOtp, signIn } from "@/lib/auth/client";
+import { signInSchema, type SignInSchemaType } from "@/modules/auth/schemas";
 
 export const SignInView = () => {
 	const [isPending, startTransition] = useTransition();
+	const [isPendingEmail, startTransitionEmail] = useTransition();
+
+	const router = useRouter();
+
+	const form = useForm<SignInSchemaType>({
+		resolver: zodResolver(signInSchema),
+		defaultValues: {
+			email: "",
+		},
+		mode: "all",
+	});
+
+	const onSubmitEmail = async (data: SignInSchemaType) => {
+		startTransitionEmail(async () => {
+			await emailOtp.sendVerificationOtp({
+				email: data.email,
+				type: "sign-in",
+				fetchOptions: {
+					onSuccess: () => {
+						toast.success("Verification email sent successfully", {
+							id: "verification-email-sent",
+							description: "You will be redirected to the verification page",
+						});
+
+						router.push(`/verify-request?email=${data.email}`);
+					},
+					onError: (ctx) => {
+						toast.error("Error sending verification email", {
+							id: "verification-email-error",
+							description: ctx.error.message,
+						});
+					},
+				},
+			});
+		});
+	};
 
 	const socialSignInButtons = () => {
 		startTransition(async () => {
@@ -81,21 +128,46 @@ export const SignInView = () => {
 					<Separator className="flex-1" />
 				</div>
 
-				<div className="grid gap-4">
-					<div className="grid gap-2">
-						<Label htmlFor="email">Email</Label>
-						<Input
-							type="email"
-							name="email"
-							id="email"
-							placeholder="me@example.com"
-						/>
-					</div>
+				<Form {...form}>
+					<form
+						onSubmit={form.handleSubmit(onSubmitEmail)}
+						className="grid gap-4"
+					>
+						<div className="grid gap-2">
+							<FormField
+								name="email"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Email</FormLabel>
+										<FormControl>
+											<Input
+												type="email"
+												autoComplete="email"
+												placeholder="me@example.com"
+												{...field}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+						</div>
 
-					<Button type="submit" className="w-full">
-						Continue with email
-					</Button>
-				</div>
+						<Button type="submit" className="w-full" disabled={isPendingEmail}>
+							{isPendingEmail ? (
+								<>
+									<Loader2Icon className="size-4 animate-spin" />
+									Sending verification email
+								</>
+							) : (
+								<>
+									<SendIcon className="size-4" />
+									Continue with email
+								</>
+							)}
+						</Button>
+					</form>
+				</Form>
 			</CardContent>
 		</Card>
 	);
