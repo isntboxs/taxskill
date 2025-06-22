@@ -15,6 +15,7 @@ export const env = createEnv({
 		GITHUB_CLIENT_ID: z.string(),
 		GITHUB_CLIENT_SECRET: z.string(),
 		RESEND_API_KEY: z.string(),
+		ARCJET_API_KEY: z.string(),
 	},
 
 	/**
@@ -37,6 +38,7 @@ export const env = createEnv({
 		GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
 		GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
 		RESEND_API_KEY: process.env.RESEND_API_KEY,
+		ARCJET_API_KEY: process.env.ARCJET_API_KEY,
 		NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
 	},
 	/**
