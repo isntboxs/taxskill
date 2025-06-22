@@ -1,4 +1,5 @@
 import { FlatCompat } from "@eslint/eslintrc";
+import nextPlugin from "@next/eslint-plugin-next";
 import reactHooks from "eslint-plugin-react-hooks";
 import tseslint from "typescript-eslint";
 
@@ -15,6 +16,7 @@ export default tseslint.config(
 		files: ["**/*.ts", "**/*.tsx"],
 		plugins: {
 			reactHooks: reactHooks,
+			next: nextPlugin,
 		},
 		extends: [
 			...tseslint.configs.recommended,
