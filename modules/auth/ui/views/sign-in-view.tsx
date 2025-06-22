@@ -1,6 +1,10 @@
 "use client";
 
+import { useTransition } from "react";
+
+import { Loader2Icon } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -13,8 +17,34 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { signIn } from "@/lib/auth/client";
 
 export const SignInView = () => {
+	const [isPending, startTransition] = useTransition();
+
+	const socialSignInButtons = () => {
+		startTransition(async () => {
+			await signIn.social({
+				provider: "github",
+				callbackURL: "/",
+				fetchOptions: {
+					onSuccess: () => {
+						toast.success("Signed in with GitHub successfully", {
+							id: "github-sign-in-success",
+							description: "You will be redirected",
+						});
+					},
+					onError: (ctx) => {
+						toast.error("Error signing in with GitHub", {
+							id: "github-sign-in-error",
+							description: ctx.error.message,
+						});
+					},
+				},
+			});
+		});
+	};
+
 	return (
 		<Card>
 			<CardHeader>
@@ -24,9 +54,23 @@ export const SignInView = () => {
 				</CardDescription>
 			</CardHeader>
 			<CardContent className="space-y-4">
-				<Button variant="outline" className="w-full">
-					<FaGithub className="size-4" />
-					Sign in with GitHub
+				<Button
+					variant="outline"
+					className="w-full"
+					onClick={socialSignInButtons}
+					disabled={isPending}
+				>
+					{isPending ? (
+						<>
+							<Loader2Icon className="size-4 animate-spin" />
+							Sign in with GitHub
+						</>
+					) : (
+						<>
+							<FaGithub className="size-4" />
+							Sign in with GitHub
+						</>
+					)}
 				</Button>
 
 				<div className="flex items-center gap-2">
