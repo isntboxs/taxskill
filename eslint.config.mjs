@@ -1,4 +1,5 @@
 import { FlatCompat } from "@eslint/eslintrc";
+import nextPlugin from "@next/eslint-plugin-next";
 import reactHooks from "eslint-plugin-react-hooks";
 import tseslint from "typescript-eslint";
 
@@ -15,6 +16,7 @@ export default tseslint.config(
 		files: ["**/*.ts", "**/*.tsx"],
 		plugins: {
 			reactHooks: reactHooks,
+			next: nextPlugin,
 		},
 		extends: [
 			...tseslint.configs.recommended,
@@ -22,6 +24,9 @@ export default tseslint.config(
 			...tseslint.configs.stylisticTypeChecked,
 		],
 		rules: {
+			"@typescript-eslint/no-unsafe-assignment": "off",
+			"@typescript-eslint/no-unsafe-call": "off",
+			"@typescript-eslint/no-unsafe-member-access": "off",
 			"@typescript-eslint/array-type": "off",
 			"@typescript-eslint/consistent-type-definitions": "off",
 			"@typescript-eslint/consistent-type-imports": [
