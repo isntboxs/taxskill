@@ -4,7 +4,7 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-import { geistMono, geistSans } from "@/lib/fonts";
+import { geistMono, geistSans, poppins } from "@/lib/fonts";
 
 import "@/styles/globals.css";
 
@@ -22,7 +22,7 @@ export default function RootLayout({
 	return (
 		<html
 			lang="en"
-			className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+			className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} antialiased`}
 			suppressHydrationWarning
 		>
 			<body>
