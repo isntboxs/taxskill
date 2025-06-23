@@ -25,15 +25,17 @@ import { signOut } from "@/lib/auth/client";
 import type { Session } from "@/lib/auth/types";
 
 const UserAvatar = ({ user }: { user: Session["user"] }) => {
+	const letterFallback = user.name.toUpperCase().charAt(0) ?? "U";
+
 	return (
 		<Avatar>
 			{user.image ? (
 				<>
 					<AvatarImage src={user.image} alt={user.name} />
-					<AvatarFallback>{user.name.charAt(0).toUpperCase()}</AvatarFallback>
+					<AvatarFallback>{letterFallback}</AvatarFallback>
 				</>
 			) : (
-				<AvatarFallback>{user.name.charAt(0).toUpperCase()}</AvatarFallback>
+				<AvatarFallback>{letterFallback}</AvatarFallback>
 			)}
 		</Avatar>
 	);
@@ -42,24 +44,24 @@ const UserAvatar = ({ user }: { user: Session["user"] }) => {
 interface dropdownItemsProps {
 	name: string;
 	href: string;
-	icons: LucideIcon;
+	icon: LucideIcon;
 }
 
 const dropdownItems: dropdownItemsProps[] = [
 	{
 		name: "Home",
 		href: "/",
-		icons: HomeIcon,
+		icon: HomeIcon,
 	},
 	{
 		name: "Courses",
 		href: "/courses",
-		icons: BookOpenIcon,
+		icon: BookOpenIcon,
 	},
 	{
 		name: "Dashboard",
 		href: "/dashboard",
-		icons: LayoutDashboardIcon,
+		icon: LayoutDashboardIcon,
 	},
 ];
 
@@ -112,10 +114,10 @@ export default function PublicUserButtonHeader({ data }: { data: Session }) {
 				</DropdownMenuLabel>
 				<DropdownMenuSeparator />
 				<DropdownMenuGroup>
-					{dropdownItems.map((item, index) => (
-						<DropdownMenuItem key={index} asChild>
+					{dropdownItems.map((item) => (
+						<DropdownMenuItem key={item.href} asChild>
 							<Link href={item.href}>
-								<item.icons
+								<item.icon
 									size={16}
 									className="opacity-60"
 									aria-hidden="true"

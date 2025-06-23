@@ -26,9 +26,9 @@ export const PublicDesktopNavHeader = () => {
 	return (
 		<nav className="hidden space-x-4 md:flex md:items-center md:justify-between">
 			<div className="flex items-center space-x-2">
-				{navItems.map((item, index) => (
+				{navItems.map((item) => (
 					<Link
-						key={index}
+						key={item.href}
 						href={item.href}
 						className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
 					>
@@ -43,7 +43,7 @@ export const PublicDesktopNavHeader = () => {
 				{isPending ? (
 					<Skeleton className="size-8 rounded-full" />
 				) : session ? (
-					<PublicUserButtonHeader data={JSON.parse(JSON.stringify(session))} />
+					<PublicUserButtonHeader data={session} />
 				) : (
 					<Link
 						href="/sign-in"
