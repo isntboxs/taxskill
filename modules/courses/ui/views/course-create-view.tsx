@@ -7,6 +7,7 @@ import { ArrowLeftIcon, PlusIcon, SparkleIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import slugify from "slugify";
 
+import { TiptapEditor } from "@/components/global/rich-text-editor/editor";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
 	Card,
@@ -158,11 +159,7 @@ export const CourseCreateView = () => {
 									<FormItem>
 										<FormLabel>Description</FormLabel>
 										<FormControl>
-											<Textarea
-												placeholder="Description"
-												className="min-h-[120px]"
-												{...field}
-											/>
+											<TiptapEditor field={field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
