@@ -18,8 +18,8 @@ export const courseInsertSchema = z.object({
 	price: z.number({ coerce: true }).min(1, { message: "Price is required" }),
 	duration: z
 		.number({ coerce: true })
-		.min(1, { message: "Duration must be at least 3 characters long" })
-		.max(500, { message: "Duration must be at most 500 characters long" }),
+		.min(1, { message: "Duration must be at least 1 hour" })
+		.max(500, { message: "Duration must be at most 500 hours" }),
 	level: z.enum(courseLevels, {
 		message: "Level is required",
 	}),

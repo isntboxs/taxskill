@@ -81,7 +81,7 @@ enum CourseLevel {
   Advanced
 }
 
-enum CurseStatus {
+enum CourseStatus {
   Draft
   Published
   Archived
@@ -94,13 +94,14 @@ model Course {
   description String
   fileKey     String
   price       Int
+  // price       Decimal     @db.Decimal(10, 2)
   duration    Int
   level       CourseLevel @default(Beginner)
 
   category         String
   smallDescription String
-  slug             String      @unique
-  status           CurseStatus @default(Draft)
+  slug             String       @unique
+  status           CourseStatus @default(Draft)
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
