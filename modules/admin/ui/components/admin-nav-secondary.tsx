@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 
 import { type Icon } from "@tabler/icons-react";
 
@@ -26,13 +27,13 @@ export function AdminNavSecondary({
 		<SidebarGroup {...props}>
 			<SidebarGroupContent>
 				<SidebarMenu>
-					{items.map((item) => (
-						<SidebarMenuItem key={item.title}>
+					{items.map((item, index) => (
+						<SidebarMenuItem key={`${item.url}-${index}`}>
 							<SidebarMenuButton asChild>
-								<a href={item.url}>
+								<Link href={item.url}>
 									<item.icon />
 									<span>{item.title}</span>
-								</a>
+								</Link>
 							</SidebarMenuButton>
 						</SidebarMenuItem>
 					))}

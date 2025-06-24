@@ -39,11 +39,13 @@ export function AdminNavMain({
 					</SidebarMenuItem>
 				</SidebarMenu>
 				<SidebarMenu>
-					{items.map((item) => (
-						<SidebarMenuItem key={item.title}>
-							<SidebarMenuButton tooltip={item.title}>
-								{item.icon && <item.icon />}
-								<span>{item.title}</span>
+					{items.map((item, index) => (
+						<SidebarMenuItem key={`${item.url}-${index}`}>
+							<SidebarMenuButton tooltip={item.title} asChild>
+								<Link href={item.url}>
+									{item.icon && <item.icon />}
+									<span>{item.title}</span>
+								</Link>
 							</SidebarMenuButton>
 						</SidebarMenuItem>
 					))}
